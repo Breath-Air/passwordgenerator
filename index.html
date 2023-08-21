@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>password generator</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+    }
+
+    input:focus-visible {
+        outline: 0;
+    }
+
+    input{
+        width: 40px;
+    }
+
+    .main {
+        background-color: #3498db;
+        min-height: 100vh;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .box {
+        min-width: 400px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 50%);
+        background: #2980b9;
+        border-radius: 2px;
+        margin-top: 10px;
+    }
+
+    #pass-box {
+        width: 100%;
+        display: block;
+        background-color: white;
+        font-size: 30px;
+        padding: 10px;
+        border-radius: 4px;
+        position: relative;
+        left: -9px;
+    }
+
+    .row {
+        width: 100%;
+        display: flex;
+        margin-top: 10px;
+        justify-content: space-between;
+        color: white;
+        font-size: 20px;
+    }
+
+    label {
+        user-select: none;
+    }
+
+    #btn {
+        width: 100%;
+        font-size: 20px;
+        outline: 0;
+        border: 0;
+        padding: 10px;
+        color: white;
+        background-color: #34495e;
+        margin-top: 10px;
+        border-radius: 5px;
+    }
+
+</style>
+
+<body>
+    <div class="main">
+        <div class="box">
+            <span id="pass-box">Testing</span>
+            <div class="right">
+                <div class="row">
+                    password length
+
+                    <input type="number" id="total-char" max="30" min="2" value="2">
+                </div>
+                <div class="row">
+                    <label for="upper-case">
+                        <div class="left">
+                            contain uppercase
+                        </div>
+                    </label>
+                    <div class="right">
+                        <input type="checkbox" name="" id="upper-case" checked>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="lower-case">
+                        <div class="left">
+                            contain lowercase
+                        </div>
+                    </label>
+                    <div class="right">
+                        <input type="checkbox" name="" id="lower-case">
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="number">
+                        <div class="left">
+                            contain number
+                        </div>
+                    </label>
+                    <div class="right">
+                        <input type="checkbox" name="" id="number">
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="symbols">
+                        <div class="left">
+                            contain symbols
+                        </div>
+                    </label>
+                    <div class="right">
+                        <input type="checkbox" name="" id="symbols">
+                    </div>
+                </div>
+                <div class="row">
+                    <button id="btn">
+                        Generate
+                    </button>
+                </div>
+            </div>
+        </div>
+</body>
+
+<script>
+    const uppperSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    const lowerSet = "abcdefghijklmnopqustuvwxyz"
+    const numberSet = "1234567890"
+    const symbolsSet = "`~!@#$%^&*()_+-"
+
+    const passbox = document.getElementById("pass-box")
+    const totalchar = document.getElementById("total-char")
+    const uppercase = document.getElementById("upper-case")
+    const lowercase = document.getElementById("lower-case")
+    const number = document.getElementById("number")
+    const symbols = document.getElementById("symbols")
+
+    const getRandomData = (dataSet) => {
+        return dataSet[Math.floor(Math.random() * dataSet.length)]
+    }
+
+    const generatePassword = (password = "") => {
+        if (uppercase.checked) {
+            password += getRandomData(uppperSet)
+        }
+        if (lowercase.checked) {
+            password += getRandomData(lowerSet)
+        }
+        if (number.checked) {
+            password += getRandomData(numberSet)
+        }
+        if (symbols.checked) {
+            password += getRandomData(symbolsSet)
+        }
+        if (password.length < totalchar.value) {
+            return generatePassword(password)
+        }
+        passbox.innerText = truncateString(password, totalchar.value);
+    }
+    generatePassword();
+
+    document.getElementById("btn").addEventListener(
+        "click",
+        function () {
+            generatePassword();
+        }
+    )
+
+    function truncateString(str, num) {
+        if (str.length > num) {
+            let subStr = str.substring(0, num);
+            return subStr;
+        } else {
+            return str;
+        }
+    }
+
+
+</script>
+
+</html>
